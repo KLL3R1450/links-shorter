@@ -2,7 +2,7 @@ import flet as ft
 
 def show_not_found_notification(page: ft.Page):
     def go_to_acortar(e):
-        page.go("/acortar")
+        page.go("/captura")
         page.update()
 
     snack_bar = ft.SnackBar(

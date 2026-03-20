@@ -35,8 +35,15 @@ class ViewRedirigirLink(ft.View):
                 response = await client.get(f"http://127.0.0.1:8000/links/{self.tf_corto.value}")
                 if response.status_code == 200:
                     data = response.json()
-                    await self.main_page.launch_url_async(data["long_url"])
+                    url = data["long_url"]
+                    
+                    # Asegurar que el URL tenga protocolo para que launch_url no falle
+                    if not url.startswith(("http://", "https://")):
+                        url = "https://" + url
+                    
+                    await self.page.launch_url(url)
+                    self.page.update()
                 else:
-                    show_not_found_notification(self.main_page)
+                    show_not_found_notification(self.page)
             except Exception as ex:
-                print(f"Error al conectar con el backend: {ex}")
+                print(f"Error en redirección: {ex}")
